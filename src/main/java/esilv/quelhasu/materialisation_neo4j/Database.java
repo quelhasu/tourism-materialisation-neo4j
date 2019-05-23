@@ -18,7 +18,8 @@ import org.neo4j.driver.v1.Transaction;
 import org.neo4j.driver.v1.TransactionWork;
 
 /**
- *
+ * Class to communication with Neo4j database
+ * 
  * @author esilv
  */
 public class Database {
@@ -40,7 +41,13 @@ public class Database {
         driver.close();
     }
 
-    List<User> getUsers() {
+    /**
+     * Returns all users and classifies them by number of contributions.
+     *
+     * @return List of users.
+     *
+     */
+    public List<User> getUsers() {
         List<User> users = new ArrayList<User>();
         try ( Session session = driver.session()) {
             int nb = session.readTransaction(new TransactionWork<Integer>() {
@@ -62,7 +69,13 @@ public class Database {
         return users;
     }
 
-    List<Review> getReviews(final String user) {
+    /**
+     * Returns all reviews made by user on a location.
+     *
+     * @return List of reviews.
+     *
+     */
+    public List<Review> getReviews(final String user) {
         List<Review> reviews = new ArrayList<Review>();
         try ( Session session = driver.session()) {
             Map<String, Object> parameters = Collections.singletonMap("id", user);
@@ -90,8 +103,12 @@ public class Database {
         }
         return reviews;
     }
-
-    void addArea0Link(Map<String, Object> parameters) {
+    
+    /**
+     * Creates trip relationship between two Area_0.
+     *
+     */
+    public void addArea0Link(Map<String, Object> parameters) {
         try ( Session session = driver.session()) {
             int nb = session.readTransaction(new TransactionWork<Integer>() {
                 @Override
@@ -100,7 +117,7 @@ public class Database {
                     StatementResult result = tx.run(
                             "MERGE (a1:Area_0{gid:$name_01}) "
                             + "MERGE (a2:Area_0{gid:$name_02}) "
-                            + "MERGE (a1) -[v:trip{age:$age,nat:$nat,year:$year,month:$month}]-> (a2) "
+                            + "MERGE (a1) -[v:trip{age:$age,nat:$nat,year:toInteger($year),month:toInteger($month)}]-> (a2) "
                             + "ON CREATE SET v.nb = 1\n"
                             + "ON MATCH SET v.nb = v.nb+1",
                             parameters);
@@ -109,8 +126,12 @@ public class Database {
             });
         }
     }
-
-    void addArea2Link(Map<String, Object> parameters) {
+    
+    /**
+     * Creates trip relationship between two Area_2.
+     *
+     */
+    public void addArea2Link(Map<String, Object> parameters) {
         try ( Session session = driver.session()) {
             int nb = session.writeTransaction(new TransactionWork<Integer>() {
                 @Override
@@ -119,7 +140,7 @@ public class Database {
                     StatementResult result = tx.run(
                             "MERGE (a1:Area_2{gid:$gid_21,gid_0:\"FRA\"}) "
                             + "MERGE (a2:Area_2{gid:$gid_22, gid_0:\"FRA\"}) "
-                            + "MERGE (a1) -[v:trip{age:$age,nat:$nat,year:$year,month:$month}]-> (a2) "
+                            + "MERGE (a1) -[v:trip{age:$age,nat:$nat,year:toInteger($year),month:toInteger($month)}]-> (a2) "
                             + "ON CREATE SET v.nb = 1 "
                             + "ON MATCH SET v.nb = v.nb+1",
                             parameters);
@@ -128,8 +149,12 @@ public class Database {
             });
         }
     }
-
-    void addArea3Link(Map<String, Object> parameters) {
+    
+    /**
+     * Creates trip relationship between two Area_3.
+     *
+     */
+    public void addArea3Link(Map<String, Object> parameters) {
         try ( Session session = driver.session()) {
             int nb = session.readTransaction(new TransactionWork<Integer>() {
                 @Override
@@ -138,7 +163,7 @@ public class Database {
                     StatementResult result = tx.run(
                             "MERGE (a1:Area_3{gid:$gid_31}) "
                             + "MERGE (a2:Area_3{gid:$gid_32}) "
-                            + "MERGE (a1) -[v:trip{age:$age,nat:$nat,year:$year,month:$month}]-> (a2) "
+                            + "MERGE (a1) -[v:trip{age:$age,nat:$nat,year:toInteger($year),month:toInteger($month)}]-> (a2) "
                             + "ON CREATE SET v.nb = 1\n"
                             + "ON MATCH SET v.nb = v.nb+1",
                             parameters);
@@ -147,8 +172,12 @@ public class Database {
             });
         }
     }
-
-    void addArea4Link(Map<String, Object> parameters) {
+    
+    /**
+     * Creates trip relationship between two Area_4.
+     *
+     */
+    public void addArea4Link(Map<String, Object> parameters) {
         try ( Session session = driver.session()) {
             int nb = session.readTransaction(new TransactionWork<Integer>() {
                 @Override
@@ -157,7 +186,7 @@ public class Database {
                     StatementResult result = tx.run(
                             "MERGE (a1:Area_4{gid:$gid_41}) "
                             + "MERGE (a2:Area_4{gid:$gid_42}) "
-                            + "MERGE (a1) -[v:trip{age:$age,nat:$nat,year:$year,month:$month}]-> (a2) "
+                            + "MERGE (a1) -[v:trip{age:$age,nat:$nat,year:toInteger($year),month:toInteger($month)}]-> (a2) "
                             + "ON CREATE SET v.nb = 1\n"
                             + "ON MATCH SET v.nb = v.nb+1",
                             parameters);

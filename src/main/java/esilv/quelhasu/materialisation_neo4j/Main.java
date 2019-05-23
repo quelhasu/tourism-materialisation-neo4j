@@ -10,31 +10,37 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * Main class to launch materialization
  * @author esilv
  */
 public class Main {
+    Database db = new Database();
 
     public Main() {
-        start("Nouvelle-Aquitaine");;
+        start("Nouvelle-Aquitaine");
     }
-
+    
+    /**
+     * Test function
+     *
+     */
     private void test() {
         List<User> users;
         users = db.getUsers();
         List<Review> reviews = db.getReviews(users.get(100).id);
         System.out.println(reviews);
     }
-
+    
+    /**
+     * Materialization procedures
+     *
+     */
     private void start(String region) {
         List<User> users;
         users = db.getUsers();
         int nbArea4 = 0, nbArea0 = 0, nbArea2 = 0, nbArea3 = 0;
         int i = 0;
         for (User u : users) {
-//            if (i == 10000) {
-//                break;
-//            }
             List<Review> reviews = db.getReviews(u.id);
             Review old = null;
             nbArea4 = 0;
@@ -82,13 +88,15 @@ public class Main {
         }
 
     }
-
-    Database db = new Database();
-
+    
     public static void main(String[] args) {
         new Main();
     }
-
+    
+    /**
+     * Creates trip relationship between two Area_0.
+     *
+     */
     private void addArea0Link(User u, Review old, Review r) {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("age", u.age);
@@ -101,6 +109,10 @@ public class Main {
         parameters.clear();
     }
 
+    /**
+     * Creates trip relationship between two Area_2.
+     *
+     */
     private void addArea2Link(User u, Review old, Review r) {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("age", u.age);
@@ -113,6 +125,10 @@ public class Main {
         parameters.clear();
     }
 
+    /**
+     * Creates trip relationship between two Area_3.
+     *
+     */
     private void addArea3Link(User u, Review old, Review r) {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("age", u.age);
@@ -125,6 +141,10 @@ public class Main {
         parameters.clear();
     }
 
+    /**
+     * Creates trip relationship between two Area_4.
+     *
+     */
     private void addArea4Link(User u, Review old, Review r) {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("age", u.age);

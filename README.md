@@ -1,4 +1,4 @@
 # Materialisation Neo4j
 
 ## TODO
-- [ ] documentation
+- [x] documentation

@@ -8,7 +8,8 @@ package esilv.quelhasu.materialisation_neo4j;
 import org.neo4j.driver.v1.Record;
 
 /**
- *
+ * User class
+ * 
  * @author esilv
  */
 public class User {
