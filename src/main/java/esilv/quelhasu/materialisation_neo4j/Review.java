@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -21,6 +21,7 @@ public class Review {
     public long date_visit = -1, date_review = -1;
     public int shape_gid = -1;
     public int year = -1, month = -1;
+    public String userCountry = null;
 
     public Review() {
 
@@ -88,12 +89,16 @@ public class Review {
             r.month = record.get("month").asInt();
         } catch (Exception e) {
         }
+        try {
+            r.userCountry = record.get("user").asString();
+        } catch (Exception e) {
+        }
         return r;
     }
 
     @Override
     public String toString() {
-        return year + "-" + month + " " + date_review + " - " + date_visit + " \n| " 
+        return year + "-" + month + " " +" |\t " 
                 + gid_4 + " / " + gid_3 + " / " + gid_2 + " / " + gid_1 + " / " + gid_0
                + name_4 + " / " + name_3 + " / " + name_2 + " / " + name_1 + " / " + name_0 + " (" + shape_gid + ")";
     }

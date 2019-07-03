@@ -18,6 +18,26 @@ public class User {
     public String nationality;
     public String age;
 
+    public String getId() {
+        return id;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public String getAge() {
+        return age;
+    }
+    
+    public User(String id, String nationality, String age){
+        this.id = id;
+        this.nationality = nationality;
+        this.age = age;
+    }
+
+    public User(){}
+    
     public static User processRecord(Record record) {
         User u = new User();
         try {

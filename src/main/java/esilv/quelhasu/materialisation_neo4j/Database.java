@@ -16,12 +16,16 @@ import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.Transaction;
 import org.neo4j.driver.v1.TransactionWork;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 /**
  * Class to communication with Neo4j database
- * 
+ *
  * @author esilv
  */
+@Service
 public class Database {
 
     private final Driver driver;
@@ -57,7 +61,7 @@ public class Database {
                     StatementResult result = tx.run(
                             "MATCH (u:User)"
                             + "RETURN u.id as id, u.country as country, u.age as age, u.nbContributions as nbContributions "
-                            + "ORDER BY u.nbContributions ASC");
+                            + "ORDER BY u.nbContributions ASC LIMIT 10");
                     while (result.hasNext()) {
                         users.add(User.processRecord(result.next()));
                         i++;
@@ -103,7 +107,7 @@ public class Database {
         }
         return reviews;
     }
-    
+
     /**
      * Creates trip relationship between two Area_0.
      *
@@ -126,7 +130,7 @@ public class Database {
             });
         }
     }
-    
+
     /**
      * Creates trip relationship between two Area_2.
      *
@@ -149,7 +153,30 @@ public class Database {
             });
         }
     }
-    
+
+    /**
+     * Creates trip relationship between two Area_1.
+     *
+     */
+    public void addArea1Link(Map<String, Object> parameters) {
+        try ( Session session = driver.session()) {
+            int nb = session.writeTransaction(new TransactionWork<Integer>() {
+                @Override
+                public Integer execute(Transaction tx) {
+                    int i = 0;
+                    StatementResult result = tx.run(
+                            "MERGE (a1:Area_1{gid:$gid_11,gid_0:\"FRA\"}) "
+                            + "MERGE (a2:Area_1{gid:$gid_12, gid_0:\"FRA\"}) "
+                            + "MERGE (a1) -[v:trip{age:$age,nat:$nat,year:toInteger($year),month:toInteger($month)}]-> (a2) "
+                            + "ON CREATE SET v.nb = 1 "
+                            + "ON MATCH SET v.nb = v.nb+1",
+                            parameters);
+                    return new Integer(i);
+                }
+            });
+        }
+    }
+
     /**
      * Creates trip relationship between two Area_3.
      *
@@ -172,7 +199,7 @@ public class Database {
             });
         }
     }
-    
+
     /**
      * Creates trip relationship between two Area_4.
      *
@@ -194,5 +221,65 @@ public class Database {
                 }
             });
         }
+    }
+
+    /**
+     * Returns last reviews made by user on a location.
+     *
+     * @param Integer limit : max number of reviews
+     *
+     * @return List of reviews.
+     *
+     */
+    List<Review> getLastReviews(Integer limit) {
+        List<Review> reviews = new ArrayList<Review>();
+        try ( Session session = driver.session()) {
+            Map<String, Object> parameters = Collections.singletonMap("limit", limit);
+            int nb = session.readTransaction(new TransactionWork<Integer>() {
+                @Override
+                public Integer execute(Transaction tx) {
+                    int i = 0;
+                    StatementResult result = tx.run(
+                            "MATCH (u:User) -[r:review]-> (l:Location) \n"
+                            + "WHERE r.date_review >= 1558742400000  and l.name_4 is not null\n"
+                            + "RETURN u.country as user,\n"
+                            + "l.name_4 as name_4, l.gid_4 as gid_4,\n"
+                            + "l.gadm36 as shape_gid, r.year as year, r.month as month, r.date_review as date_review, r.date_visit as date_visit\n"
+                            + "LIMIT $limit",
+                            parameters);
+                    while (result.hasNext()) {
+                        reviews.add(Review.processRecord(result.next()));
+                        i++;
+                    }
+                    return new Integer(i);
+                }
+            });
+        }
+        return reviews;
+    }
+    
+//    @Cacheable(value = "statisticsCache", key = "#last_update", sync = true)
+    DatabaseStats getUserLocationRelStat(int last_update) {
+        DatabaseStats dbs = new DatabaseStats();
+        try ( Session session = driver.session()) {
+            int nb = session.readTransaction(new TransactionWork<Integer>() {
+                @Override
+                public Integer execute(Transaction tx) {
+                    int i = 0;
+                    StatementResult result = tx.run(
+                            "MATCH (u:User) -[r:review]-> (l:Location) RETURN count(distinct u) as nbUsers, \n"
+                            + "count(distinct l) as nbLocations, \n"
+                            + "count(r) as nbReviews"
+                    );
+                    dbs.setParams(result.single());
+                    return new Integer(i);
+                 }
+            });
+        }
+        return dbs;
+    }
+    
+    void updateDatabase() {
+        System.out.println("Hello, i'm updating the database");
     }
 }
