@@ -5,5 +5,7 @@
 
 ## 📝 TODO
 - [x] documentation
-- [ ] update database with new reviews
+- [x] receive file
+- [ ] write tests
+- [ ] update database with new reviews/users/locations
 - [ ] deploy application on server (docker)
