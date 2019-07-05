@@ -5,6 +5,7 @@
  */
 package esilv.quelhasu.materialisation_neo4j;
 
+import java.util.function.Function;
 import org.neo4j.driver.v1.Record;
 
 /**
@@ -54,6 +55,23 @@ public class User {
         }
         return u;
     }
+    
+    /**  
+    * Path returning all users of the database.  
+    */
+    public static Function<String, User> mapToUser = (line) -> {
+        String[] p = line.split("\\t");// a CSV has comma separated lines
+        User item = new User();
+//        
+        System.out.println(p[0]);
+//        item.setItemNumber(p[0]);//<-- this is the first column in the csv file
+//
+//        if (p[3] != null && p[3].trim().length() > 0) {
+//            item.setSomeProeprty(p[3]);
+//        }
+        //more initialization goes here
+        return item;
+    };
 
     @Override
     public String toString() {
