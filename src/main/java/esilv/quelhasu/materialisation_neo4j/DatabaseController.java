@@ -67,7 +67,6 @@ public class DatabaseController {
     int newUsersUpload(@RequestParam("file") MultipartFile file) throws IOException {
         if (file.getOriginalFilename().contains("users")) {
             List<User> inputList = new ArrayList<User>();
-            JSONObject obj = new JSONObject();
             try ( BufferedReader br = FileUtils.fileToBuffer(file)) {
                 inputList = br.lines().skip(1).map(User.mapToUser).collect(Collectors.toList());
             }
