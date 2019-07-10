@@ -3,6 +3,7 @@
 /home/esilv/stage/tourism-extract/materialisation_neo4j/src/main/java/esilv/quelhasu/materialisation_neo4j/DatabaseStats.java
 /home/esilv/stage/tourism-extract/materialisation_neo4j/src/main/java/esilv/quelhasu/materialisation_neo4j/DatabaseController.java
 /home/esilv/stage/tourism-extract/materialisation_neo4j/src/main/java/esilv/quelhasu/materialisation_neo4j/FileUtils.java
+/home/esilv/stage/tourism-extract/materialisation_neo4j/src/main/java/esilv/quelhasu/materialisation_neo4j/Location.java
 /home/esilv/stage/tourism-extract/materialisation_neo4j/src/main/java/esilv/quelhasu/materialisation_neo4j/User.java
 /home/esilv/stage/tourism-extract/materialisation_neo4j/src/main/java/esilv/quelhasu/materialisation_neo4j/Main.java
 /home/esilv/stage/tourism-extract/materialisation_neo4j/src/main/java/esilv/quelhasu/materialisation_neo4j/Application.java

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="4" failures="0" name="esilv.quelhasu.materialisation_neo4j.DatabaseControllerTest" time="1.326" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="esilv.quelhasu.materialisation_neo4j.LocationTest" time="0.046" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="11.0.2+9-LTS"/>
@@ -13,7 +13,7 @@
     <property name="sun.os.patch.level" value="unknown"/>
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
-    <property name="test" value="esilv.quelhasu.materialisation_neo4j.DatabaseControllerTest"/>
+    <property name="test" value="esilv.quelhasu.materialisation_neo4j.LocationTest"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="user.dir" value="/home/esilv/stage/tourism-extract/materialisation_neo4j"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
@@ -43,7 +43,7 @@
     <property name="java.class.path" value="/opt/netbeans/java/maven/boot/plexus-classworlds-2.5.2.jar"/>
     <property name="java.vm.specification.version" value="11"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dtest=esilv.quelhasu.materialisation_neo4j.DatabaseControllerTest -Dmaven.ext.class.path=/opt/netbeans/java/maven-nblib/netbeans-eventspy.jar test-compile surefire:test"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dtest=esilv.quelhasu.materialisation_neo4j.LocationTest -Dmaven.ext.class.path=/opt/netbeans/java/maven-nblib/netbeans-eventspy.jar test-compile surefire:test"/>
     <property name="java.home" value="/usr/lib/jvm/java-11-oracle"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -62,8 +62,5 @@
     <property name="sun.desktop" value="gnome"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="esilv.quelhasu.materialisation_neo4j.DatabaseControllerTest" name="testGetUsers" time="0.939"/>
-  <testcase classname="esilv.quelhasu.materialisation_neo4j.DatabaseControllerTest" name="testNewUsersUpload" time="0.094"/>
-  <testcase classname="esilv.quelhasu.materialisation_neo4j.DatabaseControllerTest" name="testWrongFilename" time="0.059"/>
-  <testcase classname="esilv.quelhasu.materialisation_neo4j.DatabaseControllerTest" name="testNewLocationsUpload" time="0.234"/>
+  <testcase classname="esilv.quelhasu.materialisation_neo4j.LocationTest" name="testMapToLocation" time="0.046"/>
 </testsuite>

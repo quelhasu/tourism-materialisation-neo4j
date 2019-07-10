@@ -82,4 +82,15 @@ public class Location {
     public String toString() {
         return "Location{" + "id=" + id + ", nom=" + nom + ", rating=" + rating + ", typeR=" + typeR + ", gadm36=" + gadm36 + '}';
     }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Location) {
+            Location l = (Location) o;
+            if (this.id.equals(l.id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

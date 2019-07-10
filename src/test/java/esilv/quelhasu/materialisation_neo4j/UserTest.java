@@ -6,15 +6,9 @@
 package esilv.quelhasu.materialisation_neo4j;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.neo4j.driver.v1.Record;
 
 /**
  *
@@ -25,22 +19,9 @@ public class UserTest {
     public UserTest() {
     }
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
+    /**
+     * Test String line with multiple user with the mapToUser function.
+     */
     @Test
     public void testMapToUser() {
         String line = "125484	Nancy	France	0	25-34	63	210\n"
@@ -50,5 +31,5 @@ public class UserTest {
         List<User> users = line.lines().map(User.mapToUser).collect(Collectors.toList());
         User result = users.get(0);
         assertEquals(expResult, result);
-    }
+    }   
 }
