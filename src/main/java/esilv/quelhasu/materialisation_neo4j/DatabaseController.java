@@ -117,6 +117,31 @@ public class DatabaseController {
             return -1;
         }
     }
+    
+    /**
+     * Create new reviews on the database according incoming CSV file.
+     *
+     * @param file CSV containing new reviews.
+     * @return The number of transactions.
+     * @throws java.io.IOException
+     */
+    @PostMapping(value = "/reviews", consumes = "multipart/form-data")
+    public @ResponseBody
+    int addReviews(@RequestParam("file") MultipartFile file) throws IOException {
+        if (file.getOriginalFilename().contains("reviews")) {
+            List<Review> inputList = new ArrayList<Review>();
+            try ( BufferedReader br = FileUtils.fileToBuffer(file)) {
+                inputList = br.lines().skip(1).map(Review.mapToReview).collect(Collectors.toList());
+            }
+            for (final Review r : inputList) {
+                System.out.println("REVIEW :: " + r);
+            }
+            int nbTransaction = db.addReviews(inputList);
+            return nbTransaction;
+        } else {
+            return -1;
+        }
+    }
 
     /**
      * Path returning statistics of the database.

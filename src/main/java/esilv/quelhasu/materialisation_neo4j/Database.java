@@ -351,4 +351,39 @@ public class Database {
             return nbLocations;
         }
     }
+
+    int addReviews(List<Review> reviews) {
+        try ( Session session = driver.session()) {
+            int nbReviews = 0;
+            for (final Review r : reviews) {
+                Map<String, Object> parameters = new HashMap<String, Object>();
+                parameters.put("idauteur", r.getIdAuteur());
+                parameters.put("idplace", r.getIdPlace());
+                parameters.put("note", r.getNote());
+                parameters.put("date_review", r.getjDate_review());
+                parameters.put("date_visit", r.getjDate_visit());
+                parameters.put("langue", r.getLangue());
+                nbReviews += session.writeTransaction(new TransactionWork<Integer>() {
+                    @Override
+                    public Integer execute(Transaction tx) {
+                        tx.run("MATCH (u:User{id:$idauteur} )"
+                                + "MATCH (l:Location{id:toInteger($idplace)} )"
+                                + "MERGE(u) -[r:review"
+                                + "{"
+                                + "  note:toInteger($note), "
+                                + "  date_review: apoc.date.parse($date_review, 'ms','yyyy-MM-dd'), "
+                                + "  date_visit: apoc.date.parse($date_visit, 'ms','yyyy-MM-dd'), "
+                                + "  lang:$langue,"
+                                + "  year: toInteger(apoc.date.format(apoc.date.parse(toString($date_review),'ms','yyyy-MM-dd'),'ms','yyyy')), \n"
+                                + "  month: toInteger(apoc.date.format(apoc.date.parse(toString($date_visit),'ms','yyyy-MM-dd'),'ms','MM'))"
+                                + "}]-> (l)",
+                                parameters);
+                        return 1;
+                    }
+                });
+                parameters.clear();
+            }
+            return nbReviews;
+        }
+    }
 }

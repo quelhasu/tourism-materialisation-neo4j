@@ -12,10 +12,6 @@ import java.util.function.Function;
  * @author esilv
  */
 
-//Location{id:toInteger(l.id), nom:l.nom, rating:toFloat(l.rating), 
-//latitude:toFloat(l.latitude), longitude:toFloat(l.longitude), type:l.type, 
-//typeR:l.typeR, gadm36:toInteger(l.gadm36_gid), country:l.country, region:l.region}
-
 public class Location {
     private String id;
     private String nom;
@@ -70,7 +66,7 @@ public class Location {
     
     
     /**
-     * Path returning all users of the database.
+     * Path returning all locations of the database.
      */
     public static Function<String, Location> mapToLocation = (String line) -> {
         String[] p = line.split("\\t");// a CSV has comma separated lines

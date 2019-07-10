@@ -1,31 +1,76 @@
-    /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package esilv.quelhasu.materialisation_neo4j;
 
+import java.util.Date;
 import org.neo4j.driver.v1.Record;
+import java.util.function.Function;
 
 /**
  * Review class
- * 
+ *
  * @author esilv
  */
 public class Review {
 
-    public String name_0 = null, name_1 = null, 
+    public String name_0 = null, name_1 = null,
             name_2 = null, name_3 = null, name_4 = null;
-    public String gid_0 = null, gid_1 = null, 
+    public String gid_0 = null, gid_1 = null,
             gid_2 = null, gid_3 = null, gid_4 = null;
     public long date_visit = -1, date_review = -1;
     public int shape_gid = -1;
     public int year = -1, month = -1;
     public String userCountry = null;
+    private String idPlace = null;
+    private String idAuteur = null;
+    private String note = null;
+    private String langue = null;
+    private String jDate_visit = null;
+    private String jDate_review = null;
 
     public Review() {
 
     }
+
+    public Review(String idplace, String idauteur, String note, String dreview, String dvisit, String langue) {
+        this.idPlace = idplace;
+        this.idAuteur = idauteur;
+        this.note = note;
+        this.jDate_visit = dvisit;
+        this.jDate_review = dreview;
+        this.langue = langue;
+    }
+
+    public String getIdPlace() {
+        return idPlace;
+    }
+
+    public String getIdAuteur() {
+        return idAuteur;
+    }
+
+    public String getLangue() {
+        return langue;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public String getjDate_visit() {
+        return jDate_visit;
+    }
+
+    public String getjDate_review() {
+        return jDate_review;
+    }
+    
+    
+    
+    
 
     public static Review processRecord(Record record) {
         Review r = new Review();
@@ -96,10 +141,35 @@ public class Review {
         return r;
     }
 
+    /**
+     * Path returning all reviews of the database.
+     */
+    public static Function<String, Review> mapToReview = (String line) -> {
+        String[] p = line.split("\\t");// a CSV has comma separated lines
+        Review item = new Review(p[0], p[1], p[2], p[3], p[4], p[5]);
+        return item;
+    };
+
+//    @Override
+//    public String toString() {
+//        return year + "-" + month + " " + " |\t "
+//                + gid_4 + " / " + gid_3 + " / " + gid_2 + " / " + gid_1 + " / " + gid_0
+//                + name_4 + " / " + name_3 + " / " + name_2 + " / " + name_1 + " / " + name_0 + " (" + shape_gid + ")";
+//    }
+
     @Override
     public String toString() {
-        return year + "-" + month + " " +" |\t " 
-                + gid_4 + " / " + gid_3 + " / " + gid_2 + " / " + gid_1 + " / " + gid_0
-               + name_4 + " / " + name_3 + " / " + name_2 + " / " + name_1 + " / " + name_0 + " (" + shape_gid + ")";
+        return "Review{" + "idPlace=" + idPlace + ", idAuteur=" + idAuteur + ", note=" + note + ", langue=" + langue + ", jDate_visit=" + jDate_visit + ", jDate_review=" + jDate_review + '}';
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Review) {
+            Review r = (Review) o;
+            if (this.date_review == r.date_review && this.date_visit == r.date_visit) {
+                return true;
+            }
+        }
+        return false;
     }
 }
