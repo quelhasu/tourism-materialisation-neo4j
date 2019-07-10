@@ -14,10 +14,29 @@ import org.neo4j.driver.v1.Record;
  * @author esilv
  */
 public class User {
+    private String location;
+    private String sexe;
+    private String nbAvis;
+    private String nbContributions;
+    private String id;
+    private String nationality;
+    private String age;
 
-    public String id;
-    public String nationality;
-    public String age;
+    public String getLocation() {
+        return location;
+    }
+
+    public String getSexe() {
+        return sexe;
+    }
+
+    public String getNbAvis() {
+        return nbAvis;
+    }
+
+    public String getNbContributions() {
+        return nbContributions;
+    }
 
     public String getId() {
         return id;
@@ -31,7 +50,17 @@ public class User {
         return age;
     }
 
-    public User(String id, String nationality, String age) {
+    public User(String id, String location, String nationality, String sexe, String age, String nbAvis, String nbContributions) {
+        this.id = id;
+        this.nationality = nationality;
+        this.age = age;
+        this.location = location;
+        this.sexe = sexe;
+        this.nbAvis = nbAvis;
+        this.nbContributions = nbContributions;
+    }
+    
+    public User(String id, String nationality,  String age) {
         this.id = id;
         this.nationality = nationality;
         this.age = age;
@@ -62,15 +91,7 @@ public class User {
      */
     public static Function<String, User> mapToUser = (String line) -> {
         String[] p = line.split("\\t");// a CSV has comma separated lines
-        User item = new User(p[0], p[2], p[4]);
-//        
-        System.out.println(p[0]);
-//        item.setItemNumber(p[0]);//<-- this is the first column in the csv file
-//
-//        if (p[3] != null && p[3].trim().length() > 0) {
-//            item.setSomeProeprty(p[3]);
-//        }
-        //more initialization goes here
+        User item = new User(p[0], p[1], p[2], p[3], p[4], p[5], p[6]);
         return item;
     };
 

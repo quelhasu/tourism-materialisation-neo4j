@@ -48,30 +48,35 @@ public class DatabaseController {
     /**
      * Path returning all users of the database.
      *
+     * @param limit max number of comments to be returned.
      * @return A List of User.
      */
     @RequestMapping(value = "/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> getUsers() {
-        return db.getUsers();
+    public List<User> getUsers(@RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        return db.getUsers(limit);
     }
 
     /**
      * Create new users on the database according incoming CSV file.
      *
      * @param file CSV containing new users.
-     * @return The number of users added.
+     * @return The number of transactions.
      * @throws java.io.IOException
      */
     @PostMapping(value = "/users", consumes = "multipart/form-data")
     public @ResponseBody
-    int newUsersUpload(@RequestParam("file") MultipartFile file) throws IOException {
+    int addUsers(@RequestParam("file") MultipartFile file) throws IOException {
         if (file.getOriginalFilename().contains("users")) {
             List<User> inputList = new ArrayList<User>();
             try ( BufferedReader br = FileUtils.fileToBuffer(file)) {
                 inputList = br.lines().skip(1).map(User.mapToUser).collect(Collectors.toList());
             }
-            System.out.println("Size fo inputList: " + inputList.size());
-            return inputList.size();
+            for (final User user : inputList) {
+                System.out.println("USER :: " + user);
+            }
+//            int nbTransaction = db.addUsers(inputList);
+            int nbTransaction = inputList.size();
+            return nbTransaction;
         } else {
             return -1;
         }
@@ -86,6 +91,31 @@ public class DatabaseController {
     @RequestMapping(value = "/reviews", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Review> getReviews(@RequestParam(value = "limit", defaultValue = "10") Integer limit) {
         return db.getLastReviews(limit);
+    }
+    
+    /**
+     * Create new locations on the database according incoming CSV file.
+     *
+     * @param file CSV containing new locations.
+     * @return The number of transactions.
+     * @throws java.io.IOException
+     */
+    @PostMapping(value = "/locations", consumes = "multipart/form-data")
+    public @ResponseBody
+    int addLocations(@RequestParam("file") MultipartFile file) throws IOException {
+        if (file.getOriginalFilename().contains("locations")) {
+            List<Location> inputList = new ArrayList<Location>();
+            try ( BufferedReader br = FileUtils.fileToBuffer(file)) {
+                inputList = br.lines().skip(1).map(Location.mapToLocation).collect(Collectors.toList());
+            }
+            for (final Location loc : inputList) {
+                System.out.println("LOCATION :: " + loc);
+            }
+            int nbTransaction = db.addLocations(inputList);
+            return nbTransaction;
+        } else {
+            return -1;
+        }
     }
 
     /**

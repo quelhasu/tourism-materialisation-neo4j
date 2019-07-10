@@ -28,8 +28,8 @@ public class Main {
      */
     private void test() {
         List<User> users;
-        users = db.getUsers();
-        List<Review> reviews = db.getReviews(users.get(58).id);
+        users = db.getUsers(10);
+        List<Review> reviews = db.getReviews(users.get(58).getId());
         System.out.println(reviews);
     }
     
@@ -39,11 +39,11 @@ public class Main {
      */
     private void start(String region) {
         List<User> users;
-        users = db.getUsers();
+        users = db.getUsers(10);
         int nbArea4 = 0, nbArea0 = 0,nbArea1 = 0, nbArea2 = 0, nbArea3 = 0;
         int i = 0;
         for (User u : users) {
-            List<Review> reviews = db.getReviews(u.id);
+            List<Review> reviews = db.getReviews(u.getId());
             Review old = null;
             nbArea4 = 0;
             nbArea2 = 0;
@@ -107,8 +107,8 @@ public class Main {
      */
     private void addArea0Link(User u, Review old, Review r) {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("age", u.age);
-        parameters.put("nat", u.nationality);
+        parameters.put("age", u.getAge());
+        parameters.put("nat", u.getNationality());
         parameters.put("gid_01", old.gid_0);
         parameters.put("gid_02", r.gid_0);
         parameters.put("year", old.year + "");
@@ -123,8 +123,8 @@ public class Main {
      */
     private void addArea1Link(User u, Review old, Review r) {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("age", u.age);
-        parameters.put("nat", u.nationality);
+        parameters.put("age", u.getAge());
+        parameters.put("nat", u.getNationality());
         parameters.put("gid_11", old.gid_1);
         parameters.put("gid_12", r.gid_1);
         parameters.put("year", old.year + "");
@@ -139,8 +139,8 @@ public class Main {
      */
     private void addArea2Link(User u, Review old, Review r) {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("age", u.age);
-        parameters.put("nat", u.nationality);
+        parameters.put("age", u.getAge());
+        parameters.put("nat", u.getNationality());
         parameters.put("gid_21", old.gid_2);
         parameters.put("gid_22", r.gid_2);
         parameters.put("year", old.year + "");
@@ -155,8 +155,8 @@ public class Main {
      */
     private void addArea3Link(User u, Review old, Review r) {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("age", u.age);
-        parameters.put("nat", u.nationality);
+        parameters.put("age", u.getAge());
+        parameters.put("nat", u.getNationality());
         parameters.put("gid_31", old.gid_3);
         parameters.put("gid_32", r.gid_3);
         parameters.put("year", old.year + "");
@@ -171,8 +171,8 @@ public class Main {
      */
     private void addArea4Link(User u, Review old, Review r) {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("age", u.age);
-        parameters.put("nat", u.nationality);
+        parameters.put("age", u.getAge());
+        parameters.put("nat", u.getNationality());
         parameters.put("gid_41", old.gid_4);
         parameters.put("gid_42", r.gid_4);
         parameters.put("year", old.year + "");

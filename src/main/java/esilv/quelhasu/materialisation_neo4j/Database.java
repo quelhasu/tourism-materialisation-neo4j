@@ -7,6 +7,7 @@ package esilv.quelhasu.materialisation_neo4j;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.neo4j.driver.v1.AuthTokens;
@@ -51,9 +52,10 @@ public class Database {
      * @return List of users.
      *
      */
-    public List<User> getUsers() {
+    public List<User> getUsers(int limit) {
         List<User> users = new ArrayList<User>();
         try ( Session session = driver.session()) {
+            Map<String, Object> parameters = Collections.singletonMap("limit", limit);
             int nb = session.readTransaction(new TransactionWork<Integer>() {
                 @Override
                 public Integer execute(Transaction tx) {
@@ -61,7 +63,7 @@ public class Database {
                     StatementResult result = tx.run(
                             "MATCH (u:User)"
                             + "RETURN u.id as id, u.country as country, u.age as age, u.nbContributions as nbContributions "
-                            + "ORDER BY u.nbContributions ASC LIMIT 10");
+                            + "ORDER BY u.nbContributions ASC LIMIT $limit", parameters);
                     while (result.hasNext()) {
                         users.add(User.processRecord(result.next()));
                         i++;
@@ -257,7 +259,7 @@ public class Database {
         }
         return reviews;
     }
-    
+
 //    @Cacheable(value = "statisticsCache", key = "#last_update", sync = true)
     DatabaseStats getUserLocationRelStat(int last_update) {
         DatabaseStats dbs = new DatabaseStats();
@@ -273,13 +275,80 @@ public class Database {
                     );
                     dbs.setParams(result.single());
                     return new Integer(i);
-                 }
+                }
             });
         }
         return dbs;
     }
-    
+
     void updateDatabase() {
         System.out.println("Hello, i'm updating the database");
+    }
+
+    /**
+     * Add all new users uploaded.
+     *
+     * @param users
+     * @return number of transactions
+     */
+    public int addUsers(List<User> users) {
+        try ( Session session = driver.session()) {
+            int nbUsers = 0;
+            for (final User user : users) {
+                Map<String, Object> parameters = new HashMap<String, Object>();
+                parameters.put("memberID", user.getId());
+                parameters.put("location", user.getLocation());
+                parameters.put("country", user.getNationality());
+                parameters.put("sexe", user.getSexe());
+                parameters.put("age", user.getAge());
+                parameters.put("nbAvis", user.getNbAvis());
+                parameters.put("nbContributions", user.getNbContributions());
+                nbUsers += session.writeTransaction(new TransactionWork<Integer>() {
+                    @Override
+                    public Integer execute(Transaction tx) {
+                        tx.run("MERGE(u:User{id:$memberID}) "
+                                + "SET u.location=$location, u.country=$country, "
+                                + "u.sexe=$sexe, u.age=$age, "
+                                + "u.nbAvis=toInteger($nbAvis), "
+                                + "u.nbContributions=toInteger($nbContributions)",
+                                parameters);
+                        return 1;
+                    }
+                });
+                parameters.clear();
+            }
+            return nbUsers;
+        }
+    }
+
+    int addLocations(List<Location> locations) {
+        try ( Session session = driver.session()) {
+            int nbLocations = 0;
+            for (final Location loc : locations) {
+                Map<String, Object> parameters = new HashMap<String, Object>();
+                parameters.put("id", loc.getId());
+                parameters.put("nom", loc.getNom());
+                parameters.put("rating", loc.getRating());
+                parameters.put("latitude", loc.getLatitude());
+                parameters.put("longitude", loc.getLongitude());
+                parameters.put("typeR", loc.getTypeR());
+                parameters.put("gadm36", loc.getGadm36());
+                nbLocations += session.writeTransaction(new TransactionWork<Integer>() {
+                    @Override
+                    public Integer execute(Transaction tx) {
+                        tx.run("MERGE(loc:Location{id:toInteger($id), "
+                                + "nom:$nom, rating:toFloat($rating), "
+                                + "latitude:toFloat($latitude), "
+                                + "longitude:toFloat($longitude), "
+                                + "typeR:$typeR, "
+                                + "gadm36:toInteger($gadm36)})",
+                                parameters);
+                        return 1;
+                    }
+                });
+                parameters.clear();
+            }
+            return nbLocations;
+        }
     }
 }
