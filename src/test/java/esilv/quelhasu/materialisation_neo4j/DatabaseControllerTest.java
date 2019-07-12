@@ -26,6 +26,7 @@ public class DatabaseControllerTest {
      *
      * @throws java.lang.Exception
      */
+    @Ignore("only local")
     @Test
     public void testWrongFilename() throws Exception {
         MockMultipartFile file = new MockMultipartFile("foo", "foo.properties", "text/plain", "bar".getBytes());
