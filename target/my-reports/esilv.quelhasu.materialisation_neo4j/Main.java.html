@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">materialisation_neo4j</a> &gt; <a href="index.source.html" class="el_package">esilv.quelhasu.materialisation_neo4j</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package esilv.quelhasu.materialisation_neo4j;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Main class to launch materialization
+ * @author esilv
+ */
+public class Main {
+<span class="nc" id="L17">    Database db = new Database();</span>
+
+<span class="nc" id="L19">    public Main() {</span>
+        //start(&quot;Nouvelle-Aquitaine&quot;);
+<span class="nc" id="L21">        System.out.println(&quot;Test de la nouvelle interface client!&quot;);</span>
+<span class="nc" id="L22">        test();</span>
+<span class="nc" id="L23">    }</span>
+    
+    /**
+     * Test function
+     *
+     */
+    private void test() {
+        List&lt;User&gt; users;
+<span class="nc" id="L31">        users = db.getUsers(10);</span>
+<span class="nc" id="L32">        List&lt;Review&gt; reviews = db.getReviews(users.get(58).getId());</span>
+<span class="nc" id="L33">        System.out.println(reviews);</span>
+<span class="nc" id="L34">    }</span>
+    
+    /**
+     * Materialization procedures
+     *
+     */
+    private void start(String region) {
+        List&lt;User&gt; users;
+<span class="nc" id="L42">        users = db.getUsers(10);</span>
+<span class="nc" id="L43">        int nbArea4 = 0, nbArea0 = 0,nbArea1 = 0, nbArea2 = 0, nbArea3 = 0;</span>
+<span class="nc" id="L44">        int i = 0;</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        for (User u : users) {</span>
+<span class="nc" id="L46">            List&lt;Review&gt; reviews = db.getReviews(u.getId());</span>
+<span class="nc" id="L47">            Review old = null;</span>
+<span class="nc" id="L48">            nbArea4 = 0;</span>
+<span class="nc" id="L49">            nbArea2 = 0;</span>
+<span class="nc" id="L50">            nbArea3 = 0;</span>
+<span class="nc" id="L51">            nbArea0 = 0;</span>
+<span class="nc" id="L52">            nbArea1 = 0;</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            for (Review r : reviews) {</span>
+<span class="nc bnc" id="L54" title="All 6 branches missed.">                if (old != null &amp;&amp; old.shape_gid != r.shape_gid</span>
+                        &amp;&amp; r.date_review - old.date_review &lt; 1000 * 3600 * 24 * 7) {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">                    if (old.name_1.compareTo(region) == 0</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">                            &amp;&amp; r.name_1.compareTo(region) == 0) {</span>
+//                        System.out.println(&quot;addArea4Link between\n\t&quot; + old + &quot;\n\t&quot; + r);
+//                        addArea4Link(u, old, r);
+<span class="nc" id="L60">                        nbArea4++;</span>
+                    }
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                    if (!old.name_2.equals(r.name_2)</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">                            &amp;&amp; r.name_0.compareTo(&quot;France&quot;) == 0</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                            &amp;&amp; old.name_0.compareTo(&quot;France&quot;) == 0) {</span>
+//                        System.out.println(&quot;addArea2Link between\n\t&quot; + old + &quot;\n\t&quot; + r);
+//                        addArea2Link(u, old, r);
+<span class="nc" id="L67">                        nbArea2++;</span>
+
+                    }
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                    if (!old.name_3.equals(r.name_3)</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">                            &amp;&amp; r.name_0.compareTo(&quot;France&quot;) == 0</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">                            &amp;&amp; old.name_0.compareTo(&quot;France&quot;) == 0) {</span>
+//                        System.out.println(&quot;addArea3Link between\n\t&quot; + old + &quot;\n\t&quot; + r);
+//                        addArea3Link(u, old, r);
+<span class="nc" id="L75">                        nbArea3++;</span>
+
+                    }
+<span class="nc bnc" id="L78" title="All 2 branches missed.">                    if (!old.name_1.equals(r.name_1) </span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">                            &amp;&amp; r.name_0.compareTo(&quot;France&quot;) == 0</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">                            &amp;&amp; old.name_0.compareTo(&quot;France&quot;) == 0){</span>
+<span class="nc" id="L81">                            addArea1Link(u, old, r);</span>
+                        }
+<span class="nc bnc" id="L83" title="All 4 branches missed.">                    if (!old.name_0.equals(r.name_0) &amp;&amp; !old.name_0.equals(&quot;null&quot;)</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">                            &amp;&amp; !r.name_0.equals(&quot;null&quot;)) {</span>
+//                        System.out.println(&quot;addArea0Link between\n\t&quot; + old + &quot;\n\t&quot; + r);
+//                        addArea0Link(u, old, r);
+<span class="nc" id="L87">                        nbArea0++;</span>
+                    }
+                }
+<span class="nc" id="L90">                old = r;</span>
+<span class="nc" id="L91">            }</span>
+//            if (nbArea0 &gt; 0 || nbArea2 &gt; 0 || nbArea3 &gt; 0 || nbArea4 &gt; 0) {
+//                System.out.println(u.nationality + &quot;, a_0:&quot; + nbArea0 + &quot;, a_2:&quot; + nbArea2 + &quot;, a_3:&quot; + nbArea3 + &quot;, a_4:&quot; + nbArea4);
+//            }
+<span class="nc" id="L95">            i++;</span>
+<span class="nc" id="L96">        }</span>
+
+<span class="nc" id="L98">    }</span>
+    
+    public static void main(String[] args) {
+<span class="nc" id="L101">        new Main();</span>
+<span class="nc" id="L102">    }</span>
+    
+    /**
+     * Creates trip relationship between two Area_0.
+     *
+     */
+    private void addArea0Link(User u, Review old, Review r) {
+<span class="nc" id="L109">        Map&lt;String, Object&gt; parameters = new HashMap&lt;String, Object&gt;();</span>
+<span class="nc" id="L110">        parameters.put(&quot;age&quot;, u.getAge());</span>
+<span class="nc" id="L111">        parameters.put(&quot;nat&quot;, u.getNationality());</span>
+<span class="nc" id="L112">        parameters.put(&quot;gid_01&quot;, old.gid_0);</span>
+<span class="nc" id="L113">        parameters.put(&quot;gid_02&quot;, r.gid_0);</span>
+<span class="nc" id="L114">        parameters.put(&quot;year&quot;, old.year + &quot;&quot;);</span>
+<span class="nc" id="L115">        parameters.put(&quot;month&quot;, old.month + &quot;&quot;);</span>
+<span class="nc" id="L116">        db.addArea0Link(parameters);</span>
+<span class="nc" id="L117">        parameters.clear();</span>
+<span class="nc" id="L118">    }</span>
+    
+    /**
+     * Creates trip relationship between two Area_1.
+     *
+     */
+    private void addArea1Link(User u, Review old, Review r) {
+<span class="nc" id="L125">        Map&lt;String, Object&gt; parameters = new HashMap&lt;String, Object&gt;();</span>
+<span class="nc" id="L126">        parameters.put(&quot;age&quot;, u.getAge());</span>
+<span class="nc" id="L127">        parameters.put(&quot;nat&quot;, u.getNationality());</span>
+<span class="nc" id="L128">        parameters.put(&quot;gid_11&quot;, old.gid_1);</span>
+<span class="nc" id="L129">        parameters.put(&quot;gid_12&quot;, r.gid_1);</span>
+<span class="nc" id="L130">        parameters.put(&quot;year&quot;, old.year + &quot;&quot;);</span>
+<span class="nc" id="L131">        parameters.put(&quot;month&quot;, old.month + &quot;&quot;);</span>
+<span class="nc" id="L132">        db.addArea1Link(parameters);</span>
+<span class="nc" id="L133">        parameters.clear();</span>
+<span class="nc" id="L134">    }</span>
+
+    /**
+     * Creates trip relationship between two Area_2.
+     *
+     */
+    private void addArea2Link(User u, Review old, Review r) {
+<span class="nc" id="L141">        Map&lt;String, Object&gt; parameters = new HashMap&lt;String, Object&gt;();</span>
+<span class="nc" id="L142">        parameters.put(&quot;age&quot;, u.getAge());</span>
+<span class="nc" id="L143">        parameters.put(&quot;nat&quot;, u.getNationality());</span>
+<span class="nc" id="L144">        parameters.put(&quot;gid_21&quot;, old.gid_2);</span>
+<span class="nc" id="L145">        parameters.put(&quot;gid_22&quot;, r.gid_2);</span>
+<span class="nc" id="L146">        parameters.put(&quot;year&quot;, old.year + &quot;&quot;);</span>
+<span class="nc" id="L147">        parameters.put(&quot;month&quot;, old.month + &quot;&quot;);</span>
+<span class="nc" id="L148">        db.addArea2Link(parameters);</span>
+<span class="nc" id="L149">        parameters.clear();</span>
+<span class="nc" id="L150">    }</span>
+
+    /**
+     * Creates trip relationship between two Area_3.
+     *
+     */
+    private void addArea3Link(User u, Review old, Review r) {
+<span class="nc" id="L157">        Map&lt;String, Object&gt; parameters = new HashMap&lt;String, Object&gt;();</span>
+<span class="nc" id="L158">        parameters.put(&quot;age&quot;, u.getAge());</span>
+<span class="nc" id="L159">        parameters.put(&quot;nat&quot;, u.getNationality());</span>
+<span class="nc" id="L160">        parameters.put(&quot;gid_31&quot;, old.gid_3);</span>
+<span class="nc" id="L161">        parameters.put(&quot;gid_32&quot;, r.gid_3);</span>
+<span class="nc" id="L162">        parameters.put(&quot;year&quot;, old.year + &quot;&quot;);</span>
+<span class="nc" id="L163">        parameters.put(&quot;month&quot;, old.month + &quot;&quot;);</span>
+<span class="nc" id="L164">        db.addArea3Link(parameters);</span>
+<span class="nc" id="L165">        parameters.clear();</span>
+<span class="nc" id="L166">    }</span>
+
+    /**
+     * Creates trip relationship between two Area_4.
+     *
+     */
+    private void addArea4Link(User u, Review old, Review r) {
+<span class="nc" id="L173">        Map&lt;String, Object&gt; parameters = new HashMap&lt;String, Object&gt;();</span>
+<span class="nc" id="L174">        parameters.put(&quot;age&quot;, u.getAge());</span>
+<span class="nc" id="L175">        parameters.put(&quot;nat&quot;, u.getNationality());</span>
+<span class="nc" id="L176">        parameters.put(&quot;gid_41&quot;, old.gid_4);</span>
+<span class="nc" id="L177">        parameters.put(&quot;gid_42&quot;, r.gid_4);</span>
+<span class="nc" id="L178">        parameters.put(&quot;year&quot;, old.year + &quot;&quot;);</span>
+<span class="nc" id="L179">        parameters.put(&quot;month&quot;, old.month + &quot;&quot;);</span>
+<span class="nc" id="L180">        db.addArea4Link(parameters);</span>
+<span class="nc" id="L181">        parameters.clear();</span>
+<span class="nc" id="L182">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

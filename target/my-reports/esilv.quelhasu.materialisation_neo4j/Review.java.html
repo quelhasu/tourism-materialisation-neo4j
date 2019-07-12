@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Review.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">materialisation_neo4j</a> &gt; <a href="index.source.html" class="el_package">esilv.quelhasu.materialisation_neo4j</a> &gt; <span class="el_source">Review.java</span></div><h1>Review.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package esilv.quelhasu.materialisation_neo4j;
+
+import java.util.Date;
+import org.neo4j.driver.v1.Record;
+import java.util.function.Function;
+
+/**
+ * Review class
+ *
+ * @author esilv
+ */
+public class Review {
+
+<span class="pc" id="L19">    public String name_0 = null, name_1 = null,</span>
+            name_2 = null, name_3 = null, name_4 = null;
+<span class="pc" id="L21">    public String gid_0 = null, gid_1 = null,</span>
+            gid_2 = null, gid_3 = null, gid_4 = null;
+<span class="pc" id="L23">    public long date_visit = -1, date_review = -1;</span>
+<span class="pc" id="L24">    public int shape_gid = -1;</span>
+<span class="pc" id="L25">    public int year = -1, month = -1;</span>
+<span class="pc" id="L26">    public String userCountry = null;</span>
+<span class="pc" id="L27">    private String idPlace = null;</span>
+<span class="pc" id="L28">    private String idAuteur = null;</span>
+<span class="pc" id="L29">    private String note = null;</span>
+<span class="pc" id="L30">    private String langue = null;</span>
+<span class="pc" id="L31">    private String jDate_visit = null;</span>
+<span class="pc" id="L32">    private String jDate_review = null;</span>
+
+<span class="nc" id="L34">    public Review() {</span>
+
+<span class="nc" id="L36">    }</span>
+
+<span class="fc" id="L38">    public Review(String idplace, String idauteur, String note, String dreview, String dvisit, String langue) {</span>
+<span class="fc" id="L39">        this.idPlace = idplace;</span>
+<span class="fc" id="L40">        this.idAuteur = idauteur;</span>
+<span class="fc" id="L41">        this.note = note;</span>
+<span class="fc" id="L42">        this.jDate_visit = dvisit;</span>
+<span class="fc" id="L43">        this.jDate_review = dreview;</span>
+<span class="fc" id="L44">        this.langue = langue;</span>
+<span class="fc" id="L45">    }</span>
+
+    public String getIdPlace() {
+<span class="fc" id="L48">        return idPlace;</span>
+    }
+
+    public String getIdAuteur() {
+<span class="fc" id="L52">        return idAuteur;</span>
+    }
+
+    public String getLangue() {
+<span class="fc" id="L56">        return langue;</span>
+    }
+
+    public String getNote() {
+<span class="fc" id="L60">        return note;</span>
+    }
+
+    public String getjDate_visit() {
+<span class="fc" id="L64">        return jDate_visit;</span>
+    }
+
+    public String getjDate_review() {
+<span class="fc" id="L68">        return jDate_review;</span>
+    }
+    
+    
+    
+    
+
+    public static Review processRecord(Record record) {
+<span class="nc" id="L76">        Review r = new Review();</span>
+        try {
+<span class="nc" id="L78">            r.name_0 = record.get(&quot;name_0&quot;).asString();</span>
+<span class="nc" id="L79">        } catch (Exception e) {</span>
+<span class="nc" id="L80">        }</span>
+        try {
+<span class="nc" id="L82">            r.name_1 = record.get(&quot;name_1&quot;).asString();</span>
+<span class="nc" id="L83">        } catch (Exception e) {</span>
+<span class="nc" id="L84">        }</span>
+        try {
+<span class="nc" id="L86">            r.name_2 = record.get(&quot;name_2&quot;).asString();</span>
+<span class="nc" id="L87">        } catch (Exception e) {</span>
+<span class="nc" id="L88">        }</span>
+        try {
+<span class="nc" id="L90">            r.name_3 = record.get(&quot;name_3&quot;).asString();</span>
+<span class="nc" id="L91">        } catch (Exception e) {</span>
+<span class="nc" id="L92">        }</span>
+        try {
+<span class="nc" id="L94">            r.name_4 = record.get(&quot;name_4&quot;).asString();</span>
+<span class="nc" id="L95">        } catch (Exception e) {</span>
+<span class="nc" id="L96">        }</span>
+        try {
+<span class="nc" id="L98">            r.gid_0 = record.get(&quot;gid_0&quot;).asString();</span>
+<span class="nc" id="L99">        } catch (Exception e) {</span>
+<span class="nc" id="L100">        }</span>
+        try {
+<span class="nc" id="L102">            r.gid_1 = record.get(&quot;gid_1&quot;).asString();</span>
+<span class="nc" id="L103">        } catch (Exception e) {</span>
+<span class="nc" id="L104">        }</span>
+        try {
+<span class="nc" id="L106">            r.gid_2 = record.get(&quot;gid_2&quot;).asString();</span>
+<span class="nc" id="L107">        } catch (Exception e) {</span>
+<span class="nc" id="L108">        }</span>
+        try {
+<span class="nc" id="L110">            r.gid_3 = record.get(&quot;gid_3&quot;).asString();</span>
+<span class="nc" id="L111">        } catch (Exception e) {</span>
+<span class="nc" id="L112">        }</span>
+        try {
+<span class="nc" id="L114">            r.gid_4 = record.get(&quot;gid_4&quot;).asString();</span>
+<span class="nc" id="L115">        } catch (Exception e) {</span>
+<span class="nc" id="L116">        }</span>
+        try {
+<span class="nc" id="L118">            r.date_visit = record.get(&quot;date_visit&quot;).asLong();</span>
+<span class="nc" id="L119">        } catch (Exception e) {</span>
+<span class="nc" id="L120">        }</span>
+        try {
+<span class="nc" id="L122">            r.date_review = record.get(&quot;date_review&quot;).asLong();</span>
+<span class="nc" id="L123">        } catch (Exception e) {</span>
+<span class="nc" id="L124">        }</span>
+        try {
+<span class="nc" id="L126">            r.shape_gid = record.get(&quot;shape_gid&quot;).asInt();</span>
+<span class="nc" id="L127">        } catch (Exception e) {</span>
+<span class="nc" id="L128">        }</span>
+        try {
+<span class="nc" id="L130">            r.year = record.get(&quot;year&quot;).asInt();</span>
+<span class="nc" id="L131">        } catch (Exception e) {</span>
+<span class="nc" id="L132">        }</span>
+        try {
+<span class="nc" id="L134">            r.month = record.get(&quot;month&quot;).asInt();</span>
+<span class="nc" id="L135">        } catch (Exception e) {</span>
+<span class="nc" id="L136">        }</span>
+        try {
+<span class="nc" id="L138">            r.userCountry = record.get(&quot;user&quot;).asString();</span>
+<span class="nc" id="L139">        } catch (Exception e) {</span>
+<span class="nc" id="L140">        }</span>
+<span class="nc" id="L141">        return r;</span>
+    }
+
+    /**
+     * Path returning all reviews of the database.
+     */
+<span class="fc" id="L147">    public static Function&lt;String, Review&gt; mapToReview = (String line) -&gt; {</span>
+<span class="fc" id="L148">        String[] p = line.split(&quot;\\t&quot;);// a CSV has comma separated lines</span>
+<span class="fc" id="L149">        Review item = new Review(p[0], p[1], p[2], p[3], p[4], p[5]);</span>
+<span class="fc" id="L150">        return item;</span>
+    };
+
+//    @Override
+//    public String toString() {
+//        return year + &quot;-&quot; + month + &quot; &quot; + &quot; |\t &quot;
+//                + gid_4 + &quot; / &quot; + gid_3 + &quot; / &quot; + gid_2 + &quot; / &quot; + gid_1 + &quot; / &quot; + gid_0
+//                + name_4 + &quot; / &quot; + name_3 + &quot; / &quot; + name_2 + &quot; / &quot; + name_1 + &quot; / &quot; + name_0 + &quot; (&quot; + shape_gid + &quot;)&quot;;
+//    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L162">        return &quot;Review{&quot; + &quot;idPlace=&quot; + idPlace + &quot;, idAuteur=&quot; + idAuteur + &quot;, note=&quot; + note + &quot;, langue=&quot; + langue + &quot;, jDate_visit=&quot; + jDate_visit + &quot;, jDate_review=&quot; + jDate_review + '}';</span>
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">        if (o instanceof Review) {</span>
+<span class="fc" id="L168">            Review r = (Review) o;</span>
+<span class="pc bpc" id="L169" title="2 of 4 branches missed.">            if (this.date_review == r.date_review &amp;&amp; this.date_visit == r.date_visit) {</span>
+<span class="fc" id="L170">                return true;</span>
+            }
+        }
+<span class="nc" id="L173">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
