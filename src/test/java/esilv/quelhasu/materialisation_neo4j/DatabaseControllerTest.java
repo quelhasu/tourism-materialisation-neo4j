@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.springframework.mock.web.MockMultipartFile;
 
 /**
@@ -40,6 +41,7 @@ public class DatabaseControllerTest {
      *
      * @throws java.lang.Exception
      */
+    @Ignore("only local")
     @Test
     public void testNewUsersUpload() throws Exception {
         MockMultipartFile file = new MockMultipartFile("users", "users", "text/csv",
@@ -58,6 +60,7 @@ public class DatabaseControllerTest {
      *
      * @throws java.lang.Exception
      */
+    @Ignore("only local")
     @Test
     public void testNewLocationsUpload() throws Exception {
         MockMultipartFile file = new MockMultipartFile("locations", "locations", "text/csv",
@@ -78,6 +81,7 @@ public class DatabaseControllerTest {
      *
      * @throws java.lang.Exception
      */
+    @Ignore("only local")
     @Test
     public void testNewReviewsUpload() throws Exception {
         MockMultipartFile file = new MockMultipartFile("reviews", "reviews", "text/csv",
@@ -97,6 +101,7 @@ public class DatabaseControllerTest {
     /**
      * Test the getUsers route.
      */
+    @Ignore("only local")
     @Test
     public void testGetUsers() {
         DatabaseController instance = new DatabaseController();
