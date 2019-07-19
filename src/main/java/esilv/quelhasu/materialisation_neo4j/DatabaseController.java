@@ -92,7 +92,7 @@ public class DatabaseController {
     public List<Review> getReviews(@RequestParam(value = "limit", defaultValue = "10") Integer limit) {
         return db.getLastReviews(limit);
     }
-    
+
     /**
      * Create new locations on the database according incoming CSV file.
      *
@@ -117,7 +117,7 @@ public class DatabaseController {
             return -1;
         }
     }
-    
+
     /**
      * Create new reviews on the database according incoming CSV file.
      *
@@ -166,19 +166,18 @@ public class DatabaseController {
     /**
      * Updating the database according to the new pushed data.
      *
+     * @param last last update date UNIX
+     * @param region studied area
      * @return The number of users added.
      * @throws java.io.IOException
      */
     @GetMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(value = "statisticsCache", allEntries = true)
-    public int updateDatabase() throws IOException {
-//        String filename = file.getOriginalFilename();
-//        List<User> inputList = new ArrayList<User>();
-//        JSONObject obj = new JSONObject();
-//        BufferedReader br = FileUtils.fileToBuffer(file);
-//        inputList = br.lines().skip(1).map(User.mapToUser).collect(Collectors.toList());
-//        br.close();
-//        System.out.println("Size fo inputList: " + inputList.size());
+    public int updateDatabase(@RequestParam(value = "last", defaultValue = "1558337399000") String last, @RequestParam(value = "region", defaultValue = "Nouvelle-Aquitaine") String region) throws IOException {
+        List<Review> reviews = db.getReviews("0015AF38DBB2F688CB97351F53810186", last);
+        System.out.println("reviews: \n" + reviews);
+        Materialization process = new Materialization(db);
+        process.update(region, last);
         return 10;
     }
 }

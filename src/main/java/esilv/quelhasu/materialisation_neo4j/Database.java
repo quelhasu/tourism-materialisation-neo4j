@@ -76,6 +76,40 @@ public class Database {
     }
 
     /**
+     * Returns all users who contributed after the last update date and
+     * classifies them by number of contributions.
+     *
+     * @return List of users.
+     *
+     */
+    List<User> getUsers(int limit, String lastUpdate) {
+        List<User> users = new ArrayList<User>();
+        try ( Session session = driver.session()) {
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            parameters.put("limit", limit);
+            parameters.put("lastUpdate", lastUpdate);
+            int nb = session.readTransaction(new TransactionWork<Integer>() {
+                @Override
+                public Integer execute(Transaction tx) {
+                    int i = 0;
+                    StatementResult result = tx.run(
+                            "MATCH (u:User) -[r:review]-> (l:Location) "
+                            + "WHERE r.date_review >= toInteger($lastUpdate) "
+                            + "RETURN DISTINCT u.id as id, u.country as country, "
+                            + "u.age as age, u.nbContributions as nbContributions  "
+                            + "ORDER BY u.nbContributions DESC LIMIT $limit", parameters);
+                    while (result.hasNext()) {
+                        users.add(User.processRecord(result.next()));
+                        i++;
+                    }
+                    return new Integer(i);
+                }
+            });
+        }
+        return users;
+    }
+
+    /**
      * Returns all reviews made by user on a location.
      *
      * @return List of reviews.
@@ -91,6 +125,45 @@ public class Database {
                     int i = 0;
                     StatementResult result = tx.run(
                             "MATCH (u:User{id:$id}) -[r:review]-> (l:Location) "
+                            + "RETURN l.name_0 as name_0, l.gid_0 as gid_0,"
+                            + "l.name_1 as name_1, l.gid_1 as gid_1,"
+                            + "l.name_2 as name_2, l.gid_2 as gid_2,"
+                            + "l.name_3 as name_3, l.gid_3 as gid_3,"
+                            + "l.name_4 as name_4, l.gid_4 as gid_4,"
+                            + "l.gadm36 as shape_gid, r.year as year, r.month as month, r.date_review as date_review, r.date_visit as date_visit "
+                            + "ORDER BY r.date_review ASC, r.date_visit ASC",
+                            parameters);
+                    while (result.hasNext()) {
+                        reviews.add(Review.processRecord(result.next()));
+                        i++;
+                    }
+                    return new Integer(i);
+                }
+            });
+        }
+        return reviews;
+    }
+
+    /**
+     * Returns all reviews made by user on a location with date_review greater
+     * than last update.
+     *
+     * @return List of reviews.
+     *
+     */
+    List<Review> getReviews(String user, String lastUpdate) {
+        List<Review> reviews = new ArrayList<Review>();
+        try ( Session session = driver.session()) {
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            parameters.put("id", user);
+            parameters.put("lastUpdate", lastUpdate);
+            int nb = session.readTransaction(new TransactionWork<Integer>() {
+                @Override
+                public Integer execute(Transaction tx) {
+                    int i = 0;
+                    StatementResult result = tx.run(
+                            "MATCH (u:User{id:$id}) -[r:review]-> (l:Location) "
+                            + "WHERE r.date_review >= toInteger($lastUpdate) "
                             + "RETURN l.name_0 as name_0, l.gid_0 as gid_0,"
                             + "l.name_1 as name_1, l.gid_1 as gid_1,"
                             + "l.name_2 as name_2, l.gid_2 as gid_2,"

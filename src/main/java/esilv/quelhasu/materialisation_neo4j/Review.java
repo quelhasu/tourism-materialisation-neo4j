@@ -159,7 +159,7 @@ public class Review {
 
     @Override
     public String toString() {
-        return "Review{" + "idPlace=" + idPlace + ", idAuteur=" + idAuteur + ", note=" + note + ", langue=" + langue + ", jDate_visit=" + jDate_visit + ", jDate_review=" + jDate_review + '}';
+        return "Review{" + "idPlace=" + idPlace + ", idAuteur=" + idAuteur + ", note=" + note + ", langue=" + langue + ", jDate_visit=" + date_visit + ", jDate_review=" + date_review + '}';
     }
     
     @Override

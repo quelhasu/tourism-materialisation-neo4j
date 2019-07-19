@@ -13,13 +13,14 @@ import java.util.Map;
  * Main class to launch materialization
  * @author esilv
  */
-public class Main {
-    Database db = new Database();
+public class Materialization {
+    Database db;
 
-    public Main() {
+    public Materialization(Database db) {
         //start("Nouvelle-Aquitaine");
+        this.db = db;
         System.out.println("Test de la nouvelle interface client!");
-        test();
+//        test();
     }
     
     /**
@@ -37,7 +38,7 @@ public class Main {
      * Materialization procedures
      *
      */
-    private void start(String region) {
+    public void start(String region) {
         List<User> users;
         users = db.getUsers(10);
         int nbArea4 = 0, nbArea0 = 0,nbArea1 = 0, nbArea2 = 0, nbArea3 = 0;
@@ -97,10 +98,74 @@ public class Main {
 
     }
     
-    public static void main(String[] args) {
-        new Main();
+    /**
+     * Materialization update procedures
+     *
+     * @param region studied area
+     * @param lastUpdate last update date
+     */
+    public void update(String region, String lastUpdate) {
+        List<User> users;
+        users = db.getUsers(10, lastUpdate);
+        int nbArea4 = 0, nbArea0 = 0,nbArea1 = 0, nbArea2 = 0, nbArea3 = 0;
+        int i = 0;
+        for (User u : users) {
+            List<Review> reviews = db.getReviews(u.getId(), lastUpdate);
+            Review old = null;
+            nbArea4 = 0;
+            nbArea2 = 0;
+            nbArea3 = 0;
+            nbArea0 = 0;
+            nbArea1 = 0;
+            for (Review r : reviews) {
+//                System.out.println("review : " + r + "\n");
+                if (old != null && old.shape_gid != r.shape_gid
+                        && r.date_review - old.date_review < 1000 * 3600 * 24 * 7) {
+                    if (old.name_1.compareTo(region) == 0
+                            && r.name_1.compareTo(region) == 0) {
+                        System.out.println("addArea4Link between\n\t" + old + "\n\t" + r);
+//                        addArea4Link(u, old, r);
+                        nbArea4++;
+                    }
+                    if (!old.name_2.equals(r.name_2)
+                            && r.name_0.compareTo("France") == 0
+                            && old.name_0.compareTo("France") == 0) {
+                        System.out.println("addArea2Link between\n\t" + old + "\n\t" + r);
+//                        addArea2Link(u, old, r);
+                        nbArea2++;
+
+                    }
+                    if (!old.name_3.equals(r.name_3)
+                            && r.name_0.compareTo("France") == 0
+                            && old.name_0.compareTo("France") == 0) {
+                        System.out.println("addArea3Link between\n\t" + old + "\n\t" + r);
+//                        addArea3Link(u, old, r);
+                        nbArea3++;
+
+                    }
+                    if (!old.name_1.equals(r.name_1) 
+                            && r.name_0.compareTo("France") == 0
+                            && old.name_0.compareTo("France") == 0){
+                            addArea1Link(u, old, r);
+                        }
+                    if (!old.name_0.equals(r.name_0) && !old.name_0.equals("null")
+                            && !r.name_0.equals("null")) {
+                        System.out.println("addArea0Link between\n\t" + old + "\n\t" + r);
+//                        addArea0Link(u, old, r);
+                        nbArea0++;
+                    }
+                }
+                old = r;
+            }
+//            if (nbArea0 > 0 || nbArea2 > 0 || nbArea3 > 0 || nbArea4 > 0) {
+//                System.out.println(u.nationality + ", a_0:" + nbArea0 + ", a_2:" + nbArea2 + ", a_3:" + nbArea3 + ", a_4:" + nbArea4);
+//            }
+            i++;
+        }
+
     }
     
+
     /**
      * Creates trip relationship between two Area_0.
      *
